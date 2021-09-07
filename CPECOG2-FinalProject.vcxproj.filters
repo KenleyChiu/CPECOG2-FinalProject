@@ -27,7 +27,6 @@
     <ClInclude Include="MiniFB_enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Tiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,7 +53,5 @@
     <ClCompile Include="View.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-=======
->>>>>>> parent of 16965eb (Class for character and view)
   </ItemGroup>
 </Project>

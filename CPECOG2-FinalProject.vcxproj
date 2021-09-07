@@ -92,7 +92,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(ProjectDir)minifb.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,11 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Character.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="MiniFB.h" />
     <ClInclude Include="MiniFB_cpp.h" />
     <ClInclude Include="MiniFB_enums.h" />
-<<<<<<< HEAD
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="Walls.h" />
@@ -154,8 +153,6 @@
     <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Walls.cpp" />
-=======
->>>>>>> parent of 16965eb (Class for character and view)
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

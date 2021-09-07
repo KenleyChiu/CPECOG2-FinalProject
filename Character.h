@@ -11,7 +11,6 @@ public:
 	int getHeight();
 	int getX();
 	int getY();
-	uint32_t* getSpriteTracker();
 	int getHealth();
 	uint32_t* getSprite();
 	void setX(int x);
@@ -19,9 +18,8 @@ public:
 	void setSprite(uint32_t* sprite_tracker);
 	void setWidth(int width);
 	void setHeight(int height);
-	void setX(int x);
-	void setY(int y);
-	void setSpriteTracker(uint32_t* sprite_tracker);
+	void setDamage(int health);
+
 private:
 	int x, y, width, height, health;
 	uint32_t* sprite_tracker;
