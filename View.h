@@ -12,6 +12,7 @@
 class View
 {
 public:
+	View(uint8_t* bg_mem);
 	uint32_t* getFrameBuffer();
 
 private:
