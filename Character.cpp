@@ -6,52 +6,58 @@ Character::Character(int x, int y, uint32_t* sprite_tracker, int width, int heig
 
 int Character::getWidth()
 {
-	return 0;
+	return width;
 }
 
 int Character::getHeight()
 {
-	return 0;
+	return height;
 }
 
 int Character::getX()
 {
-	return 0;
+	return x;
 }
 
 int Character::getY()
 {
-	return 0;
+	return y;
 }
 
 int Character::getHealth()
 {
-	return 0;
+	return health;
 }
 
 uint32_t* Character::getSprite()
 {
-	return nullptr;
+	return sprite_tracker;
 }
 
 void Character::setX(int x)
 {
+	this->x = x;
 }
 
 void Character::setY(int y)
 {
+	this->y = y;
+
 }
 
 void Character::setSprite(uint32_t* sprite_tracker)
 {
+	this->sprite_tracker = sprite_tracker;
 }
 
 void Character::setWidth(int width)
 {
+	this->width = width;
 }
 
 void Character::setHeight(int height)
 {
+	this->height = height;
 }
 
 void Character::setDamage(int health)
