@@ -1,11 +1,22 @@
 #pragma once
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <iostream>
+#include "CImg.h"
+
+
 #define WIDTH	1280
 #define HEIGHT	720
+
 class View
 {
 public:
+	View(uint8_t* bg_mem);
 	uint32_t* getFrameBuffer();
+	uint32_t* loadSprite(uint8_t* sprite_data, int width, int height);
+
+
 private:
 	static uint32_t bg_arr[WIDTH * HEIGHT];
 	static uint32_t frame[WIDTH * HEIGHT];
@@ -16,3 +27,4 @@ private:
 	uint32_t* framebuffer;
 };
 
+};
