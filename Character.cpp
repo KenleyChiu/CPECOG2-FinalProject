@@ -1,6 +1,6 @@
 #include "Character.h"
 
-Character::Character(int x, int y, uint32_t* sprite_tracker, int width, int height, int health)
+Character::Character(int x, int y, uint32_t* sprite_tracker, int width, int height, int health, int Xdir, int Ydir)
 {
 }
 
@@ -34,6 +34,17 @@ uint32_t* Character::getSprite()
 	return sprite_tracker;
 }
 
+int Character::getXdir()
+{
+	return Xdir;
+}
+
+int Character::getYdir()
+{
+	return Ydir;
+}
+
+
 void Character::setX(int x)
 {
 	this->x = x;
@@ -60,6 +71,17 @@ void Character::setHeight(int height)
 	this->height = height;
 }
 
-void Character::setDamage(int health)
+void Character::setHealth(int health)
 {
+	this->health = health; 
+}
+
+void Character::setXdir(int Xdir)
+{
+	this->Xdir = Xdir;
+}
+
+void Character::setYdir(int Ydir)
+{
+	this->Ydir = Ydir; 
 }
