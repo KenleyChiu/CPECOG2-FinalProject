@@ -12,10 +12,7 @@
 class View
 {
 public:
-	View(uint8_t* bg_mem);
 	uint32_t* getFrameBuffer();
-	uint32_t* loadSprite(uint8_t* sprite_data, int width, int height);
-
 
 private:
 	static uint32_t bg_arr[WIDTH * HEIGHT];
