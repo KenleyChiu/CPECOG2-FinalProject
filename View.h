@@ -25,6 +25,6 @@ private:
 	static uint32_t* sprite_mem_tracker;
 	uint32_t* bgbuffer;
 	uint32_t* framebuffer;
-
+};
 
 };
