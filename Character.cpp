@@ -1,7 +1,16 @@
 #include "Character.h"
-
-Character::Character(int x, int y, uint32_t* sprite_tracker, int width, int height, int health, int Xdir, int Ydir)
+Character::Character(uint32_t* sprite_tracker, int width, int height, int Xdir, int Ydir, int x, int y, int health, int x_speed, int y_speed)
 {
+	this->x = x;
+	this->y = y;
+	this->health = health;
+	this->sprite_tracker = sprite_tracker;
+	this->width = width;
+	this->height = height;
+	this->Xdir = Xdir;
+	this->Ydir = Ydir;
+	this->x_speed = x_speed;
+	this->y_speed = y_speed;
 }
 
 int Character::getWidth()
@@ -73,7 +82,7 @@ void Character::setHeight(int height)
 
 void Character::setHealth(int health)
 {
-	this->health = health; 
+	this->health = health;
 }
 
 void Character::setXdir(int Xdir)
@@ -83,5 +92,25 @@ void Character::setXdir(int Xdir)
 
 void Character::setYdir(int Ydir)
 {
-	this->Ydir = Ydir; 
+	this->Ydir = Ydir;
+}
+
+void Character::changeXPos()
+{
+	x = x + x_speed;
+}
+
+void Character::changeYPos()
+{
+	y = y + y_speed;
+}
+
+void Character::setXspeed(int x_speed)
+{
+	this->x_speed = x_speed;
+}
+
+void Character::setYspeed(int y_speed)
+{
+	this->y_speed = y_speed;
 }

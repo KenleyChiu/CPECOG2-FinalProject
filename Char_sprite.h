@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-class Character
+
+class Char_sprite
 {
 public:
-	Character(uint32_t* sprite_tracker, int width, int height, int Xdir, int Ydir, int x, int y, int health, int x_speed, int y_speed);
+	Char_sprite(uint32_t* sprite_tracker, int width, int height, int Xdir, int Ydir);
 	int getWidth();
 	int getHeight();
 	int getX();
@@ -22,12 +23,10 @@ public:
 	void setHealth(int health);
 	void setXdir(int Xdir);
 	void setYdir(int Ydir);
-	void changeXPos();
-	void changeYPos();
-	void setXspeed(int x_speed);
-	void setYspeed(int y_speed);
+
 private:
-	int x, y, width, height, health, Xdir, Ydir, x_speed, y_speed;
+	int x, y, width, height, health, Xdir, Ydir;
 	uint32_t* sprite_tracker;
+
 };
 

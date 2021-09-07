@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "CImg.h"
-
+#include "Character.h"
 
 #define WIDTH	1280
 #define HEIGHT	720
@@ -14,6 +14,11 @@ class View
 public:
 	View(uint8_t* bg_mem);
 	uint32_t* getFrameBuffer();
+	uint32_t* loadSprite(uint8_t* sprite_data, int width, int height);
+
+	void displaySprite(uint32_t* sprite, int width, int height, int current_x, int current_y);
+
+	void moveCharacter(Character* character);
 
 private:
 	static uint32_t bg_arr[WIDTH * HEIGHT];

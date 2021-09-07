@@ -30,3 +30,50 @@ uint32_t* View::getFrameBuffer()
 {
 	return framebuffer;
 }
+
+uint32_t* View::loadSprite(uint8_t* sprite_data, int width, int height)
+{
+	uint32_t* sprite_tracker = sprite_mem_tracker;
+
+	for (int x = 0; x != width; x++)
+	{
+		for (int y = 0; y != height; y++)
+		{
+			uint32_t r = sprite_data[width * y + x];
+			uint32_t g = sprite_data[width * y + x + width * height];
+			uint32_t b = sprite_data[width * y + x + 2 * width * height];
+			uint32_t pixels = (r << 16) + (g << 8) + b;
+			sprite_tracker[width * (y)+(x)] = pixels;
+		}
+	}
+	sprite_mem_tracker += (width * height);
+	return sprite_tracker;
+}
+
+void View::displaySprite(uint32_t* sprite, int width, int height, int current_x, int current_y)
+{
+	for (int y = 0; y != height; y++)
+	{
+		for (int x = 0; x != width; x++)
+		{
+			if (sprite[width * y + x] != 0)
+				framebuffer[WIDTH * (current_y + y) + (current_x + x)] = sprite[width * y + x];
+		}
+	}
+}
+
+void View::moveCharacter(Character* character)
+{
+	for (int x = 0; x != character->getWidth(); x++)
+	{
+		for (int y = 0; y != character->getHeight(); y++)
+		{
+			framebuffer[WIDTH * (character->getY() + y) + (character->getX() + x)] = bgbuffer[WIDTH * (character->getY() + y) + (character->getX() + x)];
+		}
+	}
+	character->changeXPos();
+
+	character->changeYPos();
+
+	displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+}
