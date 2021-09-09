@@ -67,7 +67,37 @@ void keypress(struct mfb_window* window, mfb_key key, mfb_key_mod mod, bool isPr
 	}
 }
 
+void drawWall(Character* charac, int xpos, int ypos, int width, int height) {
+	if ((charac->getX() + speed < xpos + width && charac->getX() + 40 + speed > xpos && charac->getY() < ypos + height && charac->getY() + 40 > ypos)) {
+		charac->setXspeed(-speed);
+	}
 
+	if ((charac->getX() + speed < xpos + 3 + width && charac->getX() + 40 + speed > xpos + 3 && charac->getY() < ypos + height && charac->getY() + 40 > ypos)) {
+		charac->setXspeed(speed);
+	}
+
+	if ((charac->getY() + speed < ypos + height && charac->getY() + 40 + speed > ypos && charac->getX() < xpos + width && charac->getX() + 40 > xpos)) {
+		charac->setYspeed(-speed);
+	}
+
+	if ((charac->getY() + speed < ypos + height + 3 && charac->getY() + 40 + speed > ypos + 3 && charac->getX() < xpos + width && charac->getX() + 40> xpos)) {
+		charac->setYspeed(speed);
+		charac->changeYPos();
+	}
+	if (charac->getX() < 40) {
+		charac->setXspeed(speed);
+	}
+	if (charac->getX() > WIDTH - 40) {
+		charac->setXspeed(-speed);
+	}
+	if (charac->getY() < 40) {
+		charac->setYspeed(speed);
+	}
+	if (charac->getY() > HEIGHT - 65) {
+		charac->setYspeed(-speed);
+	}
+
+}
 
 int main()
 {
@@ -91,9 +121,13 @@ int main()
 		printf("%d,%d\n", character_sprite.width(), character_sprite.height());
 		char_arr[i] = new Char_sprite(character_pointer, character_sprite.width(), character_sprite.height(), character_info[i][0], character_info[i][1]);
 	}
-
 	Character* character = new Character(char_arr[3]->getSprite(), char_arr[3]->getWidth(), char_arr[3]->getHeight(), char_arr[3]->getXdir(), char_arr[3]->getYdir(),40,40,3, x_move, y_move);
 	graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+
+	int wallPosX[21] = { 430,  430, 710, 820, 820, 980, 940,  940,  1110,  1110,  1110,  1100, 1100, 1230,   430, 250,  190,   40,   40,   720, 790 };
+	int wallPosY[21] = { 20 ,  540, 180, 180, 540, 540,  20,  420,   420,   420,   660,   20 ,  140,  140,   670, 180,  380,  380,  180,   180, 180 };
+	int wallWidth[21] = { 10,  280, 10 ,  10, 130,  10,  10,   80,    10,   200,    10,   10 ,  50 ,   50,    10,  10,   70,   70,  200,    20,  20 };
+	int wallHeight[21] = { 530, 10, 370, 370,  10, 120, 410,   10,   180,    20,    10,   120,   10,   10,    50, 220,   20,   10,   10,    10,  10 };
 
 	Tiles* tile[TILE_COUNT];
 	char tile_file[4][100] = { "assets/pitfall.bmp", "assets/slow.bmp","assets/spikes.bmp","assets/potion.bmp" };
@@ -149,6 +183,9 @@ int main()
 			else character->setSprite(char_arr[2]->getSprite());
 		}
 
+		for (int i = 0; i < 21; i++) {
+			drawWall(character, wallPosX[i], wallPosY[i], wallWidth[i], wallHeight[i]);
+		}
 		int count, check =0;
 		for (count =0; count< 5; count++)
 		{
