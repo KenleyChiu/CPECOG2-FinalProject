@@ -5,12 +5,14 @@
 class Tiles
 {
 public: 
-	Tiles(int x, int y, uint32_t* sprite_tracker, int width, int height, int damage, float change_speed);
+	Tiles(uint32_t* sprite_tracker, int width, int height, int x, int y, int damage, int change_speed, int type, int key);
 	int getWidth();
 	int getHeight();
 	int getX();
 	int getY(); 
 	int getDamage();
+	int getType();
+	int getKey();
 	float getChangeSpeed();
 	uint32_t* getSprite();
 	void setX(int x);
@@ -24,7 +26,8 @@ public:
 private: 
 	int x, y, width, height, damage;
 	uint32_t* sprite_tracker;
-	float change_speed; 
+	int change_speed;
+	int key, type;
 
 };
 

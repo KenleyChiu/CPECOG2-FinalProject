@@ -1,5 +1,6 @@
 #include "View.h"
 
+
 uint32_t  View::bg_arr[];
 uint32_t  View::frame[];
 uint32_t  View::sprite_mem[];
@@ -62,8 +63,21 @@ void View::displaySprite(uint32_t* sprite, int width, int height, int current_x,
 	}
 }
 
-void View::moveCharacter(Character* character)
+void View::displayTile(uint32_t* sprite, int width, int height, int current_x, int current_y)
 {
+	for (int y = 0; y != height; y++)
+	{
+		for (int x = 0; x != width; x++)
+		{
+			if (sprite[width * y + x] != 0)
+				framebuffer[WIDTH * (current_y + y) + (current_x + x)] = sprite[width * y + x];
+		}
+	}
+}
+
+void View::moveCharacter(Character* character, Tiles *tile,int type)
+{
+
 	for (int x = 0; x != character->getWidth(); x++)
 	{
 		for (int y = 0; y != character->getHeight(); y++)
@@ -71,6 +85,9 @@ void View::moveCharacter(Character* character)
 			framebuffer[WIDTH * (character->getY() + y) + (character->getX() + x)] = bgbuffer[WIDTH * (character->getY() + y) + (character->getX() + x)];
 		}
 	}
+
+	displaySprite(tile->getSprite(), tile->getWidth(), tile->getHeight(), tile->getX(), tile->getY());
+
 	character->changeXPos();
 
 	character->changeYPos();

@@ -43,6 +43,16 @@ uint32_t* Character::getSprite()
 	return sprite_tracker;
 }
 
+int Character::getInvul()
+{
+	return 0;
+}
+
+void Character::setInvul(int invul)
+{
+	this->invul = invul;
+}
+
 int Character::getXdir()
 {
 	return Xdir;
@@ -114,3 +124,41 @@ void Character::setYspeed(int y_speed)
 {
 	this->y_speed = y_speed;
 }
+
+int Character::CheckTileCollision(Tiles* tile)
+{
+	int char_bottom = y + height;
+	int char_right = x + width;
+	int tile_bottom = tile->getY() + tile->getHeight();
+	int tile_right = tile->getX() + tile->getWidth();
+
+	if (tile->getType() == 2 || tile->getType() == 3)
+	{
+		if (char_right + x_speed > tile->getX() && x + x_speed < tile_right && char_bottom > tile->getY() && y < tile_bottom)
+			return 1;
+		else if (char_bottom + y_speed > tile->getY() && y + y_speed < tile_bottom && char_right > tile->getX() && x < tile_right)
+			return 1;
+	}
+
+	else
+	{
+		if (x + x_speed == tile->getX() && y + y_speed == tile->getY())
+			return 1;
+	}
+	
+
+	return 0;
+}
+
+void Character::ChangeCharacter(Tiles* tile)
+{
+	if (tile->getKey() != invul)
+	{
+		invul = tile->getKey();
+		health = health - tile->getDamage();
+		printf("%d\n", health);
+	}
+	if (tile->getType() == 4) health = 3;
+}
+
+

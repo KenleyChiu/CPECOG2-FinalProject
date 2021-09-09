@@ -5,6 +5,7 @@
 #include <iostream>
 #include "CImg.h"
 #include "Character.h"
+#include "Tiles.h"
 
 #define WIDTH	1280
 #define HEIGHT	720
@@ -18,7 +19,11 @@ public:
 
 	void displaySprite(uint32_t* sprite, int width, int height, int current_x, int current_y);
 
-	void moveCharacter(Character* character);
+	void displayTile(uint32_t* sprite, int width, int height, int current_x, int current_y);
+
+	void moveCharacter(Character* character, Tiles* tile, int type);
+
+	//void moveCharacter(Character* character);
 
 private:
 	static uint32_t bg_arr[WIDTH * HEIGHT];

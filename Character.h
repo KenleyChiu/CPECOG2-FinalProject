@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include "Tiles.h"
 class Character
 {
 public:
@@ -14,6 +15,8 @@ public:
 	int getXdir();
 	int getYdir();
 	uint32_t* getSprite();
+	int getInvul();
+	void setInvul(int invul);
 	void setX(int x);
 	void setY(int y);
 	void setSprite(uint32_t* sprite_tracker);
@@ -26,8 +29,10 @@ public:
 	void changeYPos();
 	void setXspeed(int x_speed);
 	void setYspeed(int y_speed);
+	int CheckTileCollision(Tiles *tile);
+	void ChangeCharacter(Tiles* tile);
 private:
-	int x, y, width, height, health, Xdir, Ydir, x_speed, y_speed;
+	int x, y, width, height, health, Xdir, Ydir, x_speed, y_speed, invul=0;
 	uint32_t* sprite_tracker;
 };
 

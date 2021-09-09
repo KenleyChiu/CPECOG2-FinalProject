@@ -1,7 +1,17 @@
 #include "Tiles.h"
 
-Tiles::Tiles(int x, int y, uint32_t* sprite_tracker, int width, int height, int damage, float change_speed)
+Tiles::Tiles(uint32_t* sprite_tracker, int width, int height, int x, int y, int damage, int change_speed, int type, int key)
 {
+	this->x = x;
+	this->y = y;
+	this->sprite_tracker = sprite_tracker;
+	this->width = width;
+	this->height = height;
+	this->change_speed = change_speed;
+	this->damage = damage;
+	this->type = type;
+	this->key = key;
+
 }
 
 int Tiles::getWidth()
@@ -27,6 +37,16 @@ int Tiles::getY()
 int Tiles::getDamage()
 {
 	return damage;
+}
+
+int Tiles::getType()
+{
+	return type;
+}
+
+int Tiles::getKey()
+{
+	return key;
 }
 
 float Tiles::getChangeSpeed()
