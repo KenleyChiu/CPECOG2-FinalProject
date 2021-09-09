@@ -71,7 +71,7 @@ void keypress(struct mfb_window* window, mfb_key key, mfb_key_mod mod, bool isPr
 
 int main()
 {
-	x_move = 40;
+	int prev_count =0;
 	//CImg<unsigned char> bg("assets/background.bmp");
 	CImg<unsigned char> bg("assets/dungeon_level_1.bmp");
 	printf("%d,%d\n",bg.width(),bg.height());
@@ -91,6 +91,7 @@ int main()
 		printf("%d,%d\n", character_sprite.width(), character_sprite.height());
 		char_arr[i] = new Char_sprite(character_pointer, character_sprite.width(), character_sprite.height(), character_info[i][0], character_info[i][1]);
 	}
+
 	Character* character = new Character(char_arr[3]->getSprite(), char_arr[3]->getWidth(), char_arr[3]->getHeight(), char_arr[3]->getXdir(), char_arr[3]->getYdir(),40,40,3, x_move, y_move);
 	graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
 
@@ -163,12 +164,13 @@ int main()
 			if (tile[count]->getType() == 2) speed = tile[count]->getChangeSpeed();
 			else speed = tile[count]->getChangeSpeed();
 			character->ChangeCharacter(tile[count]);
+			prev_count = count;
 		}
 		else
 		{
 			character->setInvul(0);
 			speed = 10;
-			count = 4;
+			count = prev_count;
 		}
 		
 		graphics->moveCharacter(character,tile[count],check);
