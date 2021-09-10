@@ -48,6 +48,16 @@ int Character::getInvul()
 	return 0;
 }
 
+int Character::getXSpeed()
+{
+	return x_speed;
+}
+
+int Character::getYSpeed()
+{
+	return y_speed;
+}
+
 void Character::setInvul(int invul)
 {
 	this->invul = invul;
@@ -132,19 +142,33 @@ int Character::CheckTileCollision(Tiles* tile)
 	int tile_bottom = tile->getY() + tile->getHeight();
 	int tile_right = tile->getX() + tile->getWidth();
 
-	if (tile->getType() == 2 || tile->getType() == 3)
+
+	if (char_right + x_speed > tile->getX() && x + x_speed < tile_right && char_bottom > tile->getY() && y < tile_bottom)
 	{
-		if (char_right + x_speed > tile->getX() && x + x_speed < tile_right && char_bottom > tile->getY() && y < tile_bottom)
+		if (tile->getType() != 3 && tile->getType() != 2)
+		{
+			if (x + x_speed == tile->getX() && y + y_speed == tile->getY())
+				return 1;
+			else
+				return 2;
+		}
+		else
 			return 1;
-		else if (char_bottom + y_speed > tile->getY() && y + y_speed < tile_bottom && char_right > tile->getX() && x < tile_right)
+	}
+	else if (char_bottom + y_speed > tile->getY() && y + y_speed < tile_bottom && char_right > tile->getX() && x < tile_right)
+	{
+		if (tile->getType() != 3 && tile->getType() != 2)
+		{
+			if (x + x_speed == tile->getX() && y + y_speed == tile->getY())
+				return 1;
+			else
+				return 2;
+		}
+		else
 			return 1;
 	}
 
-	else
-	{
-		if (x + x_speed == tile->getX() && y + y_speed == tile->getY())
-			return 1;
-	}
+		
 	
 
 	return 0;
@@ -159,6 +183,16 @@ void Character::ChangeCharacter(Tiles* tile)
 		printf("%d\n", health);
 	}
 	if (tile->getType() == 4) health = 3;
+}
+
+void Character::changeYSpeed(int y_speed)
+{
+	this->y_speed += y_speed;
+}
+
+void Character::changeXSpeed(int x_speed)
+{
+	this->x_speed += x_speed;
 }
 
 

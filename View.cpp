@@ -94,3 +94,21 @@ void View::moveCharacter(Character* character, Tiles *tile,int type)
 
 	displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
 }
+
+void View::moveCharacter(Character* character)
+{
+
+	for (int x = 0; x != character->getWidth(); x++)
+	{
+		for (int y = 0; y != character->getHeight(); y++)
+		{
+			framebuffer[WIDTH * (character->getY() + y) + (character->getX() + x)] = bgbuffer[WIDTH * (character->getY() + y) + (character->getX() + x)];
+		}
+	}
+
+	character->changeXPos();
+
+	character->changeYPos();
+
+	displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+}

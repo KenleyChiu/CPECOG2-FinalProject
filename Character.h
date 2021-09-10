@@ -16,6 +16,8 @@ public:
 	int getYdir();
 	uint32_t* getSprite();
 	int getInvul();
+	int getXSpeed();
+	int getYSpeed();
 	void setInvul(int invul);
 	void setX(int x);
 	void setY(int y);
@@ -31,6 +33,8 @@ public:
 	void setYspeed(int y_speed);
 	int CheckTileCollision(Tiles *tile);
 	void ChangeCharacter(Tiles* tile);
+	void changeYSpeed(int y_speed);
+	void changeXSpeed(int x_speed);
 private:
 	int x, y, width, height, health, Xdir, Ydir, x_speed, y_speed, invul=0;
 	uint32_t* sprite_tracker;

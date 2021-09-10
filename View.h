@@ -23,6 +23,8 @@ public:
 
 	void moveCharacter(Character* character, Tiles* tile, int type);
 
+	void moveCharacter(Character* character);
+
 	//void moveCharacter(Character* character);
 
 private:
