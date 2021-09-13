@@ -6,6 +6,7 @@
 class Character
 {
 public:
+	Character();
 	Character(uint32_t* sprite_tracker, int width, int height, int Xdir, int Ydir, int x, int y, int health, int x_speed, int y_speed);
 	int getWidth();
 	int getHeight();
@@ -32,7 +33,7 @@ public:
 	void setXspeed(int x_speed);
 	void setYspeed(int y_speed);
 	int CheckTileCollision(Tiles *tile);
-	void ChangeCharacter(Tiles* tile);
+	void CharacterDamage(Tiles* tile);
 	void changeYSpeed(int y_speed);
 	void changeXSpeed(int x_speed);
 private:

@@ -1,4 +1,7 @@
 #include "Character.h"
+Character::Character()
+{
+}
 Character::Character(uint32_t* sprite_tracker, int width, int height, int Xdir, int Ydir, int x, int y, int health, int x_speed, int y_speed)
 {
 	this->x = x;
@@ -148,7 +151,10 @@ int Character::CheckTileCollision(Tiles* tile)
 		if (tile->getType() != 3 && tile->getType() != 2)
 		{
 			if (x + x_speed == tile->getX() && y + y_speed == tile->getY())
-				return 1;
+			{
+					return 1;
+			}
+				
 			else
 				return 2;
 		}
@@ -174,7 +180,7 @@ int Character::CheckTileCollision(Tiles* tile)
 	return 0;
 }
 
-void Character::ChangeCharacter(Tiles* tile)
+void Character::CharacterDamage(Tiles* tile)
 {
 	if (tile->getKey() != invul)
 	{
@@ -182,7 +188,7 @@ void Character::ChangeCharacter(Tiles* tile)
 		health = health - tile->getDamage();
 		printf("%d\n", health);
 	}
-	if (tile->getType() == 4) health = 3;
+
 }
 
 void Character::changeYSpeed(int y_speed)

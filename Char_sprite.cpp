@@ -19,20 +19,10 @@ int Char_sprite::getHeight()
 	return height;
 }
 
-int Char_sprite::getX()
-{
-	return x;
-}
 
-int Char_sprite::getY()
-{
-	return y;
-}
 
-int Char_sprite::getHealth()
-{
-	return health;
-}
+
+
 
 uint32_t* Char_sprite::getSprite()
 {
@@ -49,18 +39,6 @@ int Char_sprite::getYdir()
 	return Ydir;
 }
 
-
-void Char_sprite::setX(int x)
-{
-	this->x = x;
-}
-
-void Char_sprite::setY(int y)
-{
-	this->y = y;
-
-}
-
 void Char_sprite::setSprite(uint32_t* sprite_tracker)
 {
 	this->sprite_tracker = sprite_tracker;
@@ -74,11 +52,6 @@ void Char_sprite::setWidth(int width)
 void Char_sprite::setHeight(int height)
 {
 	this->height = height;
-}
-
-void Char_sprite::setHealth(int health)
-{
-	this->health = health; 
 }
 
 void Char_sprite::setXdir(int Xdir)

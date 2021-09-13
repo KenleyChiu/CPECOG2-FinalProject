@@ -7,6 +7,10 @@ uint32_t  View::sprite_mem[];
 uint32_t* View::sprite_mem_tracker;
 const size_t View::sprite_mem_size;
 
+View::View()
+{
+}
+
 View::View(uint8_t* bg_mem)
 {
 	bgbuffer = bg_arr;
@@ -75,7 +79,19 @@ void View::displayTile(uint32_t* sprite, int width, int height, int current_x, i
 	}
 }
 
-void View::moveCharacter(Character* character, Tiles *tile,int type)
+void View::changeTile(Tiles* tile)
+{
+	for (int x = 0; x != tile->getWidth(); x++)
+	{
+		for (int y = 0; y != tile->getHeight(); y++)
+		{
+			framebuffer[WIDTH * (tile->getY() + y) + (tile->getX() + x)] = bgbuffer[WIDTH * (tile->getY() + y) + (tile->getX() + x)];
+		}
+	}
+	displaySprite(tile->getSprite(), tile->getWidth(), tile->getHeight(), tile->getX(), tile->getY());
+}
+
+int View::moveCharacter(Character* character, Tiles *tile,int type)
 {
 
 	for (int x = 0; x != character->getWidth(); x++)
@@ -88,11 +104,40 @@ void View::moveCharacter(Character* character, Tiles *tile,int type)
 
 	displaySprite(tile->getSprite(), tile->getWidth(), tile->getHeight(), tile->getX(), tile->getY());
 
-	character->changeXPos();
+	if (tile->getType() == 5 && type == 1)
+	{
+		character->setX(tile->getNewX());
+		character->setY(tile->getNewY());
+		return 1;
+	}
 
-	character->changeYPos();
-
+	else if (tile->getType() == 4 && type == 1)
+	{
+		character->setX(tile->getNewX());
+		character->setY(tile->getNewY());
+	}
+	else if (character->getHealth() <= 0)
+	{
+		character->setX(tile->getNewX());
+		character->setY(tile->getNewY());
+		character->setHealth(3);
+		displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+		return 2;
+	}
+	else if (tile->getType() == 6 && type == 1)
+	{
+		character->changeXPos();
+		character->changeYPos();
+		return 3;
+	}
+	else
+	{
+		character->changeXPos();
+		character->changeYPos();
+	}
+	
 	displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+	return 0;
 }
 
 void View::moveCharacter(Character* character)

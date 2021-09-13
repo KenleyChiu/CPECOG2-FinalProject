@@ -8,12 +8,12 @@
 #include "Char_sprite.h"
 #include "Character.h"
 #include "Tiles.h"
-
+#include "Stage.h"
 
 #define WIDTH  1280
 #define HEIGHT 720
 #define CHAR_COUNT 4
-#define TILE_COUNT 5
+#define TILE_COUNT 100
 
 int speed = 10;
 int x_move = 0;
@@ -21,6 +21,7 @@ int y_move = 0;
 int xdir = 0;
 int ydir = 0;
 int type = 0;
+
 
 using namespace cimg_library;
 
@@ -62,6 +63,10 @@ void keypress(struct mfb_window* window, mfb_key key, mfb_key_mod mod, bool isPr
 			ydir = 0;
 			type = 4;
 		}
+		else if (key == KB_KEY_ENTER)
+		{
+			type = 5;
+		}
 	}
 }
 
@@ -93,18 +98,18 @@ void drawWall(Character* character, int xpos, int ypos, int width, int height) {
 
 }
 
-int main()
+
+
+void setUpStage(Stage *stage, View *graphics, Character *character, Tiles *tile[], Char_sprite *char_arr[], int level, int new_x, int new_y)
 {
-	int prev_count =0;
-	//CImg<unsigned char> bg("assets/background.bmp");
-	CImg<unsigned char> bg("assets/dungeon_level_1.bmp");
-	printf("%d,%d\n",bg.width(),bg.height());
+	CImg<unsigned char> bg(stage->getFileBg(level-1));
+	printf("%d,%d\n", bg.width(), bg.height());
 	uint8_t* bg_mem = bg.data();
 	// Instantiate View Object
-	View* graphics = new View(bg_mem);
-	char file[4][100] = { "assets/player_sprite_back-left-up.bmp", "assets/player_sprite_back-right-up.bmp","assets/player_sprite_front-left-down.bmp","assets/player_sprite_front-right-down.bmp"};
-	int character_info[CHAR_COUNT][2] = { {0,1},{1,1},{0,0},{1,0}};
-	Char_sprite *char_arr[CHAR_COUNT];
+	graphics = new View(bg_mem);
+	stage->setStage(level);
+	char file[4][100] = { "assets/player_sprite_back-left-up.bmp", "assets/player_sprite_back-right-up.bmp","assets/player_sprite_front-left-down.bmp","assets/player_sprite_front-right-down.bmp" };
+	int character_info[CHAR_COUNT][2] = { {0,1},{1,1},{0,0},{1,0} };
 	for (int i = 0; i < CHAR_COUNT; i++)
 	{
 		CImg<unsigned char> character_sprite(file[i]);
@@ -115,33 +120,90 @@ int main()
 		printf("%d,%d\n", character_sprite.width(), character_sprite.height());
 		char_arr[i] = new Char_sprite(character_pointer, character_sprite.width(), character_sprite.height(), character_info[i][0], character_info[i][1]);
 	}
-	Character* character = new Character(char_arr[3]->getSprite(), char_arr[3]->getWidth(), char_arr[3]->getHeight(), char_arr[3]->getXdir(), char_arr[3]->getYdir(),40,40,3, x_move, y_move);
+	character->setSprite(char_arr[3]->getSprite());
+	character->setX(new_x);
+	character->setY(new_y);
 	graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
-
-	int wallPosX[21] = { 400,   400,   680,   790,   790,   950,   910,   910,   1080,   1080,   1080,   1070,   1070,   1200,   400,   230,   160,   10,   10,   690,   760};
-	int wallPosY[21] = { 0,     510,   150,   150,   510,   510,   0,     390,   390,    390,    640,    0,      110,    110,    640,   150,   350,   360,  150,  150,   150};
-	int wallWidth[21] = { 10,  280, 10 ,  10, 130,  10,  10,   80,    10,   200,    10,   10 ,  50 ,   50,    10,  10,   70,   70,  200,    20,  20 };
-	int wallHeight[21] = { 530, 10, 370, 370,  10, 120, 410,   10,   180,    20,    10,   120,   10,   10,    50, 220,   20,   10,   10,    10,  10 };
-
-	Tiles* tile[TILE_COUNT];
-	char tile_file[4][100] = { "assets/pitfall.bmp", "assets/slow.bmp","assets/spikes.bmp","assets/potion.bmp" };
-	int tile_info[TILE_COUNT][5] = {{320,320,3,10,1},{320,240,0,5,2},{100,200,1,10,3},{300,520,0,10,4},{240,100,0,5,2}};
-	for (int i = 0; i < TILE_COUNT; i++)
+	for (int i = 0; i < stage->getTileCount(); i++)
 	{
-		CImg<unsigned char> tile_sprite(tile_file[(tile_info[i][4])-1]);
+		CImg<unsigned char> tile_sprite(stage->getFileTile(stage->getTileDetail(i,4) - 1));
 		uint8_t* tile_data = tile_sprite.data();
 		uint32_t* tile_pointer = graphics->loadSprite(tile_data, tile_sprite.width(), tile_sprite.height());
-		tile[i] = new Tiles(tile_pointer, tile_sprite.width(), tile_sprite.height(), tile_info[i][0], tile_info[i][1], tile_info[i][2], tile_info[i][3], tile_info[i][4], i+1);
+		tile[i] = new Tiles(tile_pointer, tile_sprite.width(), tile_sprite.height(), stage->getTileDetail(i, 0), stage->getTileDetail(i, 1), stage->getTileDetail(i, 2), stage->getTileDetail(i, 3), stage->getTileDetail(i, 4), stage->getTileDetail(i, 5), stage->getTileDetail(i, 6), i + 1);
 		graphics->displaySprite(tile[i]->getSprite(), tile[i]->getWidth(), tile[i]->getHeight(), tile[i]->getX(), tile[i]->getY());
 	}
-	
+}
 
+int main()
+{
+	Stage *stage = new Stage();
+	int level = 1;
+	CImg<unsigned char> instruct(stage->getFilehowtoPlay(level-1));
+	uint8_t* instruct_mem = instruct.data();
+	View* graphics = new View(instruct_mem);
 	struct mfb_window* window;
 	window = mfb_open("Dungeon Crawler", WIDTH, HEIGHT);
 
-	
 	if (!window)
 		return -1;
+	do
+	{
+		mfb_set_keyboard_callback(window, keypress);
+		int state = mfb_update_ex(window, graphics->getFrameBuffer(), WIDTH, HEIGHT);
+		if (type == 5)
+		{
+			level++;
+		}
+		mfb_wait_sync(window);
+	} while (level == 1);
+
+
+	level = 1;
+	CImg<unsigned char> bg(stage->getFileBg(level - 1));
+	printf("%d,%d\n", bg.width(), bg.height());
+	uint8_t* bg_mem = bg.data();
+	graphics = new View(bg_mem);
+	stage->setStage(level);
+	char file[4][100] = { "assets/player_sprite_back-left-up.bmp", "assets/player_sprite_back-right-up.bmp","assets/player_sprite_front-left-down.bmp","assets/player_sprite_front-right-down.bmp" };
+	int character_info[CHAR_COUNT][2] = { {0,1},{1,1},{0,0},{1,0} };
+	Char_sprite* char_arr[CHAR_COUNT];
+	for (int i = 0; i < CHAR_COUNT; i++)
+	{
+		CImg<unsigned char> character_sprite(file[i]);
+		uint8_t* char_data = character_sprite.data();
+		// Load block to sprite memory
+		uint32_t* character_pointer = graphics->loadSprite(char_data, character_sprite.width(), character_sprite.height());
+		//Instantiate Block Object
+		printf("%d,%d\n", character_sprite.width(), character_sprite.height());
+		char_arr[i] = new Char_sprite(character_pointer, character_sprite.width(), character_sprite.height(), character_info[i][0], character_info[i][1]);
+	}
+	Character *character = new Character(char_arr[3]->getSprite(), char_arr[3]->getWidth(), char_arr[3]->getHeight(), char_arr[3]->getXdir(), char_arr[3]->getYdir(), 40, 360, 20, x_move, y_move);
+	graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+	Tiles* tile[TILE_COUNT];
+	for (int i = 0; i < stage->getTileCount(); i++)
+	{
+		CImg<unsigned char> tile_sprite(stage->getFileTile(stage->getTileDetail(i, 4) - 1));
+		uint8_t* tile_data = tile_sprite.data();
+		uint32_t* tile_pointer = graphics->loadSprite(tile_data, tile_sprite.width(), tile_sprite.height());
+		tile[i] = new Tiles(tile_pointer, tile_sprite.width(), tile_sprite.height(), stage->getTileDetail(i, 0), stage->getTileDetail(i, 1), stage->getTileDetail(i, 2), stage->getTileDetail(i, 3), stage->getTileDetail(i, 4), stage->getTileDetail(i, 5), stage->getTileDetail(i, 6), i + 1);
+		graphics->displaySprite(tile[i]->getSprite(), tile[i]->getWidth(), tile[i]->getHeight(), tile[i]->getX(), tile[i]->getY());
+	}
+
+	//For switch and stair setup
+	CImg<unsigned char> switchSprite(stage->getFileTile(5));
+	uint8_t* switch_data = switchSprite.data();
+	uint32_t* switch_pointer = graphics->loadSprite(switch_data, switchSprite.width(), switchSprite.height());
+	CImg<unsigned char> switchonSprite(stage->getFileTile(6));
+	uint8_t* switchon_data = switchonSprite.data();
+	uint32_t* switchon_pointer = graphics->loadSprite(switchon_data, switchonSprite.width(), switchonSprite.height());
+	CImg<unsigned char> stairSprite(stage->getFileTile(4));
+	uint8_t* stair_data = stairSprite.data();
+	uint32_t* stair_pointer = graphics->loadSprite(stair_data, stairSprite.width(), stairSprite.height());
+	CImg<unsigned char> normalSprite(stage->getFileTile(7));
+	uint8_t* normal_data = normalSprite.data();
+	uint32_t* normal_pointer = graphics->loadSprite(normal_data, normalSprite.width(), normalSprite.height());
+
+
 	do
 	{
 		x_move = 0;
@@ -150,7 +212,8 @@ int main()
 	
 		mfb_set_keyboard_callback(window, keypress);
 		int state = mfb_update_ex(window, graphics->getFrameBuffer(), WIDTH, HEIGHT);
-
+	
+ 
 		character->setXspeed(x_move);
 		character->setYspeed(y_move);
 		if (type == 1)
@@ -180,13 +243,13 @@ int main()
 		}
 
 		// Wall Algorithm
-		/*for (int i = 0; i < 21; i++) {
-			drawWall(character, wallPosX[i], wallPosY[i], wallWidth[i], wallHeight[i]);
-		}*/
+		for (int i = 0; i < stage->getWallCount(); i++) {
+			drawWall(character, stage->getXWallPos(i), stage->getYWallPos(i), stage->getWallWidth(i), stage->getWallHeight(i));
+		}
 
 		// Tile Algorithm
-		/*int count, check =0;
-		for (count =0; count< 5; count++)
+		int count, check =0;
+		for (count =0; count< stage->getTileCount(); count++)
 		{
 			check = character->CheckTileCollision(tile[count]);
 			if (check >= 1)
@@ -194,30 +257,60 @@ int main()
 				break;
 			}
 		}
-		
-
+		int changeOperation = 0;
+		// For partial slow and spike and Full others
 		if (check == 1)
 		{
 			if (tile[count]->getType() == 2) speed = tile[count]->getChangeSpeed();
 			else speed = tile[count]->getChangeSpeed();
-			character->ChangeCharacter(tile[count]);
-			prev_count = count;
+			character->CharacterDamage(tile[count]);
+			changeOperation=graphics->moveCharacter(character, tile[count], check);
 		}
-		else
+		//For partial others except slow and spike
+		else if(check == 2)
 		{
 			character->setInvul(0);
 			speed = 10;
-			count = prev_count;
-			
-		}*/
+			changeOperation=graphics->moveCharacter(character, tile[count], check);
+		}
+		// No traps
+		else {
+			character->setInvul(0);
+			speed = 10;
+			graphics->moveCharacter(character);
+		}
+
+		if (changeOperation == 1)
+		{
+			level++;
+			setUpStage(stage, graphics, character, tile, char_arr, level, tile[count]->getNewX(), tile[count]->getNewY() );
+		}
+		else if (changeOperation == 2)
+		{
+			tile[stage->getTileCount() - 2]->setSprite(switch_pointer);
+			tile[stage->getTileCount() - 2]->setType(6);
+			graphics->changeTile(tile[stage->getTileCount() - 2]);
+			tile[stage->getTileCount() - 1]->setSprite(normal_pointer);
+			tile[stage->getTileCount() - 1]->setType(8);
+			graphics->changeTile(tile[stage->getTileCount() - 1]);
+		}
+		else if (changeOperation == 3)
+		{
+			tile[count]->setSprite(switchon_pointer);
+			tile[count]->setType(7);
+			graphics->changeTile(tile[count]);
+			tile[stage->getTileCount() -1]->setSprite(stair_pointer);
+			tile[stage->getTileCount() - 1]->setType(5);
+			graphics->changeTile(tile[stage->getTileCount() - 1]);
+			graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+		}
 		
-		//graphics->moveCharacter(character,tile[count],check);
-		graphics->moveCharacter(character);
 		if (type != 0)
 		{
-			printf("%d,%d\n", character->getXSpeed(), character->getYSpeed());
 			printf("%d,%d\n", character->getX(), character->getY());
 		}
+
+		
 		
 
 	}while (mfb_wait_sync(window));

@@ -13,6 +13,7 @@
 class View
 {
 public:
+	View();
 	View(uint8_t* bg_mem);
 	uint32_t* getFrameBuffer();
 	uint32_t* loadSprite(uint8_t* sprite_data, int width, int height);
@@ -21,7 +22,9 @@ public:
 
 	void displayTile(uint32_t* sprite, int width, int height, int current_x, int current_y);
 
-	void moveCharacter(Character* character, Tiles* tile, int type);
+	void changeTile(Tiles* tile);
+
+	int moveCharacter(Character* character, Tiles* tile, int type);
 
 	void moveCharacter(Character* character);
 

@@ -30,9 +30,6 @@
     <ClInclude Include="Tiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Walls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Char_sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,12 +39,12 @@
     <ClInclude Include="Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Walls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Char_sprite.cpp">
@@ -60,6 +57,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
