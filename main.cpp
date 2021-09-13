@@ -31,11 +31,8 @@ using namespace cimg_library;
 void keypress(struct mfb_window* window, mfb_key key, mfb_key_mod mod, bool isPressed)
 {
 	if (isPressed) {
-		if (key == KB_KEY_ESCAPE)
-		{
-			mfb_close(window);
-		}
-		else if (key == KB_KEY_LEFT)
+		
+		if (key == KB_KEY_LEFT)
 		{
 			x_move= -speed;
 			y_move = 0;
@@ -283,7 +280,7 @@ int main()
 		if (changeOperation == 1)
 		{
 			level++;
-			setUpStage(stage, graphics, character, tile, char_arr, level, tile[count]->getNewX(), tile[count]->getNewY() );
+			setUpStage(stage, graphics, character, tile, char_arr, level, tile[count]->getNewX(), tile[count]->getNewY());
 		}
 		else if (changeOperation == 2)
 		{
@@ -303,6 +300,11 @@ int main()
 			tile[stage->getTileCount() - 1]->setType(5);
 			graphics->changeTile(tile[stage->getTileCount() - 1]);
 			graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+		}
+		else if (changeOperation == 4)
+		{
+			mfb_close(window);
+			return 0;
 		}
 		
 		if (type != 0)

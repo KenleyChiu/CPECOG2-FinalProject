@@ -26,7 +26,7 @@ public:
 	int getWallCount();
 	int getTileCount();
 private:
-	char tileFile[10][100]= { "assets/pitfall.bmp", "assets/slow.bmp","assets/spikes.bmp","assets/ladder.bmp","assets/staircase.bmp","assets/switch.bmp", "assets/switch_on.bmp", "assets/staircase_closed.bmp"};
+	char tileFile[10][100]= { "assets/pitfall.bmp", "assets/slow.bmp","assets/spikes.bmp","assets/ladder.bmp","assets/staircase.bmp","assets/switch.bmp", "assets/switch_on.bmp", "assets/staircase_closed.bmp", "assets/chest.bmp"};
 	char bgFile[4][100] = {"assets/dungeon_level_1.bmp","assets/dungeon_level_2.bmp","assets/dungeon_level_3.bmp","assets/dungeon_level_4.bmp"};
 	char howtoPlay[2][100] = { "assets/how_to_play_1.bmp","assets/how_to_play_2.bmp" };
 	int tileCount;

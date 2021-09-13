@@ -205,7 +205,7 @@ void Stage::setDungeon3()
 		//Access to next Level (1)
 		,{280,600,0,10,6,40,360}
 		//Next Level (1)
-		,{520,400,0,10,8, 40,40}
+		,{520,400,0,10,8, 600,600}
 	};
 	int wall_XPos[COUNT] = { 10   , 10    , 280,   880,  430 ,  10 };
 	int wall_YPos[COUNT] = { 40   ,  470  ,  275,   20,   20 ,  275 };
@@ -222,13 +222,13 @@ void Stage::setDungeon3()
 
 void Stage::setDungeon4()
 {
-	int tile_info[COUNT][7];
+	int tile_info[COUNT][7] = {{500,320,0,10,9,40,360}};
 	int wall_XPos[COUNT] = { 200 ,    360 ,  910 };
 	int wall_YPos[COUNT] = { 40   ,    60 ,  60 };
 	int wall_Width[COUNT] = { 1030 ,   10  ,  10 };
 	int wall_Height[COUNT] = { 10   ,  570  , 570 };
-	wallCount = 21;
-	tileCount = 21;
+	wallCount = 31;
+	tileCount = 1;
 	setPositionTile(tile_info, tileCount);
 	setPositionWallX(wall_XPos, wallCount);
 	setPositionWallY(wall_YPos, wallCount);

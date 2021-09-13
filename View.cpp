@@ -130,6 +130,10 @@ int View::moveCharacter(Character* character, Tiles *tile,int type)
 		character->changeYPos();
 		return 3;
 	}
+	else if (tile->getType() == 9 && type == 1)
+	{
+		return 4;
+	}
 	else
 	{
 		character->changeXPos();
