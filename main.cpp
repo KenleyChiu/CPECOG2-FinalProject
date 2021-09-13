@@ -67,22 +67,7 @@ void keypress(struct mfb_window* window, mfb_key key, mfb_key_mod mod, bool isPr
 
 void drawWall(Character* character, int xpos, int ypos, int width, int height) {
 
-	/*int char_bottom = character->getY() + character->getHeight();
-	int char_right = character->getX() + character->getWidth();*/
-
-
-	//if (char_right + x_move > xpos && character->getX() + x_move < xpos + width  && char_bottom > ypos && character->getY() < ypos + height +10)
-	//{
-	//	character->setXspeed(0);
-	//	character->setYspeed(0);
-	//}
-	//	
-	//else if (char_bottom + y_move > ypos && character->getY() + y_move < ypos + height +10 && char_right > xpos && character->getX() < xpos + width )
-	//{
-	//	character->setXspeed(0);
-	//	character->setYspeed(0);
-	//}
-		
+	
 	if ((character->getX() + x_move < xpos + width && character->getX() + 40 + x_move > xpos && character->getY() < ypos + height +10 && character->getY() + 40 > ypos)) {
 		character->setXspeed(0);
 		character->setYspeed(0);
@@ -194,11 +179,13 @@ int main()
 			else character->setSprite(char_arr[2]->getSprite());
 		}
 
-		for (int i = 0; i < 21; i++) {
+		// Wall Algorithm
+		/*for (int i = 0; i < 21; i++) {
 			drawWall(character, wallPosX[i], wallPosY[i], wallWidth[i], wallHeight[i]);
-		}
+		}*/
 
-		int count, check =0;
+		// Tile Algorithm
+		/*int count, check =0;
 		for (count =0; count< 5; count++)
 		{
 			check = character->CheckTileCollision(tile[count]);
@@ -208,6 +195,7 @@ int main()
 			}
 		}
 		
+
 		if (check == 1)
 		{
 			if (tile[count]->getType() == 2) speed = tile[count]->getChangeSpeed();
@@ -221,10 +209,10 @@ int main()
 			speed = 10;
 			count = prev_count;
 			
-		}
+		}*/
 		
-		graphics->moveCharacter(character,tile[count],check);
-		//graphics->moveCharacter(character);
+		//graphics->moveCharacter(character,tile[count],check);
+		graphics->moveCharacter(character);
 		if (type != 0)
 		{
 			printf("%d,%d\n", character->getXSpeed(), character->getYSpeed());
