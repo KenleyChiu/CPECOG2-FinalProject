@@ -174,7 +174,7 @@ int main()
 		printf("%d,%d\n", character_sprite.width(), character_sprite.height());
 		char_arr[i] = new Char_sprite(character_pointer, character_sprite.width(), character_sprite.height(), character_info[i][0], character_info[i][1]);
 	}
-	Character *character = new Character(char_arr[3]->getSprite(), char_arr[3]->getWidth(), char_arr[3]->getHeight(), char_arr[3]->getXdir(), char_arr[3]->getYdir(), 40, 360, 20, x_move, y_move);
+	Character *character = new Character(char_arr[3]->getSprite(), char_arr[3]->getWidth(), char_arr[3]->getHeight(), char_arr[3]->getXdir(), char_arr[3]->getYdir(), 40, 360, 3, x_move, y_move);
 	graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
 	Tiles* tile[TILE_COUNT];
 	for (int i = 0; i < stage->getTileCount(); i++)
