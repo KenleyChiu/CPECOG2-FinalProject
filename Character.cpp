@@ -180,15 +180,16 @@ int Character::CheckTileCollision(Tiles* tile)
 	return 0;
 }
 
-void Character::CharacterDamage(Tiles* tile)
+int Character::CharacterDamage(Tiles* tile)
 {
 	if (tile->getKey() != invul)
 	{
 		invul = tile->getKey();
 		health = health - tile->getDamage();
-		printf("%d\n", health);
+		if (health < 0) health = 0;
+		return 1;
 	}
-
+	return 0;
 }
 
 void Character::changeYSpeed(int y_speed)

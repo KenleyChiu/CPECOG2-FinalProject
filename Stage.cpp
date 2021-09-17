@@ -111,13 +111,13 @@ void Stage::setDungeon1()
 		{960,480,3,10,1,40,360},
 
 		//Slow
-		{1160, 280,0,5,2,40,360},
+		{1160, 240,0,5,2,40,360},
 		{1120,200,0,5,2,40,360},
 		{1200,200,0,5,2,40,360},
 		{920,280,0,5,2,40,360},
 		{800,400,0,5,2,40,360},
 		{1080,440,0,5,2,40,360},
-		{880,480,0,5,2,40,360},
+		{880,440,0,5,2,40,360},
 
 		
 		//Teleport (2)
@@ -168,7 +168,7 @@ void Stage::setDungeon3()
 		//Access to next Level (1)
 		,{280,600,0,10,6,40,360}
 		//Next Level (1)
-		,{520,400,0,10,8, 600,600}
+		,{520,400,0,10,8, 620,600}
 	};
 	int wall_XPos[COUNT] = { 10   , 10    , 280,   880,  430 ,  10 };
 	int wall_YPos[COUNT] = { 40   ,  470  ,  275,   20,   20 ,  275 };
@@ -185,7 +185,7 @@ void Stage::setDungeon3()
 
 void Stage::setDungeon4()
 {
-	int tile_info[COUNT][7] = {{500,320,0,10,9,40,360}};
+	int tile_info[COUNT][7] = {{620,200,0,10,9,40,360}};
 	int wall_XPos[COUNT] = { 200 ,    360 ,  910 };
 	int wall_YPos[COUNT] = { 40   ,    60 ,  60 };
 	int wall_Width[COUNT] = { 1030 ,   10  ,  10 };
@@ -239,11 +239,6 @@ const char* Stage::getFileBg(int i)
 const char* Stage::getFileTile(int i)
 {
 	return tileFile[i];
-}
-
-const char* Stage::getFilehowtoPlay(int i)
-{
-	return howtoPlay[i];
 }
 
 int Stage::getTileDetail(int i, int j)

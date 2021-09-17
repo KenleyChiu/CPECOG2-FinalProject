@@ -33,7 +33,7 @@ public:
 	void setXspeed(int x_speed);
 	void setYspeed(int y_speed);
 	int CheckTileCollision(Tiles *tile);
-	void CharacterDamage(Tiles* tile);
+	int CharacterDamage(Tiles* tile);
 	void changeYSpeed(int y_speed);
 	void changeXSpeed(int x_speed);
 private:

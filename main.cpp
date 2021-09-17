@@ -67,7 +67,7 @@ void keypress(struct mfb_window* window, mfb_key key, mfb_key_mod mod, bool isPr
 	}
 }
 
-void drawWall(Character* character, int xpos, int ypos, int width, int height) {
+void checkWall(Character* character, int xpos, int ypos, int width, int height) {
 
 	
 	if ((character->getX() + x_move < xpos + width && character->getX() + 40 + x_move > xpos && character->getY() < ypos + height +10 && character->getY() + 40 > ypos)) {
@@ -100,9 +100,7 @@ void drawWall(Character* character, int xpos, int ypos, int width, int height) {
 void setUpStage(Stage *stage, View *graphics, Character *character, Tiles *tile[], Char_sprite *char_arr[], int level, int new_x, int new_y)
 {
 	CImg<unsigned char> bg(stage->getFileBg(level-1));
-	printf("%d,%d\n", bg.width(), bg.height());
 	uint8_t* bg_mem = bg.data();
-	// Instantiate View Object
 	graphics = new View(bg_mem);
 	stage->setStage(level);
 	char file[4][100] = { "assets/player_sprite_back-left-up.bmp", "assets/player_sprite_back-right-up.bmp","assets/player_sprite_front-left-down.bmp","assets/player_sprite_front-right-down.bmp" };
@@ -111,16 +109,14 @@ void setUpStage(Stage *stage, View *graphics, Character *character, Tiles *tile[
 	{
 		CImg<unsigned char> character_sprite(file[i]);
 		uint8_t* char_data = character_sprite.data();
-		// Load block to sprite memory
 		uint32_t* character_pointer = graphics->loadSprite(char_data, character_sprite.width(), character_sprite.height());
-		//Instantiate Block Object
-		printf("%d,%d\n", character_sprite.width(), character_sprite.height());
 		char_arr[i] = new Char_sprite(character_pointer, character_sprite.width(), character_sprite.height(), character_info[i][0], character_info[i][1]);
 	}
 	character->setSprite(char_arr[3]->getSprite());
 	character->setX(new_x);
 	character->setY(new_y);
 	graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+	printf("Health: %d\n", character->getHealth());
 	for (int i = 0; i < stage->getTileCount(); i++)
 	{
 		CImg<unsigned char> tile_sprite(stage->getFileTile(stage->getTileDetail(i,4) - 1));
@@ -133,9 +129,10 @@ void setUpStage(Stage *stage, View *graphics, Character *character, Tiles *tile[
 
 int main()
 {
+	//Home screen
 	Stage *stage = new Stage();
 	int level = 1;
-	CImg<unsigned char> instruct(stage->getFilehowtoPlay(level-1));
+	CImg<unsigned char> instruct("assets/how_to_play.bmp");
 	uint8_t* instruct_mem = instruct.data();
 	View* graphics = new View(instruct_mem);
 	struct mfb_window* window;
@@ -154,13 +151,14 @@ int main()
 		mfb_wait_sync(window);
 	} while (level == 1);
 
-
+	//Initialize first stage
 	level = 1;
 	CImg<unsigned char> bg(stage->getFileBg(level - 1));
-	printf("%d,%d\n", bg.width(), bg.height());
 	uint8_t* bg_mem = bg.data();
 	graphics = new View(bg_mem);
 	stage->setStage(level);
+
+	//Instantiate character sprites
 	char file[4][100] = { "assets/player_sprite_back-left-up.bmp", "assets/player_sprite_back-right-up.bmp","assets/player_sprite_front-left-down.bmp","assets/player_sprite_front-right-down.bmp" };
 	int character_info[CHAR_COUNT][2] = { {0,1},{1,1},{0,0},{1,0} };
 	Char_sprite* char_arr[CHAR_COUNT];
@@ -168,14 +166,16 @@ int main()
 	{
 		CImg<unsigned char> character_sprite(file[i]);
 		uint8_t* char_data = character_sprite.data();
-		// Load block to sprite memory
 		uint32_t* character_pointer = graphics->loadSprite(char_data, character_sprite.width(), character_sprite.height());
-		//Instantiate Block Object
-		printf("%d,%d\n", character_sprite.width(), character_sprite.height());
 		char_arr[i] = new Char_sprite(character_pointer, character_sprite.width(), character_sprite.height(), character_info[i][0], character_info[i][1]);
 	}
+
+	//Instantiate Character
 	Character *character = new Character(char_arr[3]->getSprite(), char_arr[3]->getWidth(), char_arr[3]->getHeight(), char_arr[3]->getXdir(), char_arr[3]->getYdir(), 40, 360, 3, x_move, y_move);
 	graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
+	printf("Health: %d\n", character->getHealth());
+
+	//Instantiate tiles 
 	Tiles* tile[TILE_COUNT];
 	for (int i = 0; i < stage->getTileCount(); i++)
 	{
@@ -206,33 +206,35 @@ int main()
 		x_move = 0;
 		y_move = 0;
 		type = 0;
-	
+		
+		//Get keyboard input
 		mfb_set_keyboard_callback(window, keypress);
 		int state = mfb_update_ex(window, graphics->getFrameBuffer(), WIDTH, HEIGHT);
 	
- 
+		//Set character speed 
 		character->setXspeed(x_move);
 		character->setYspeed(y_move);
-		if (type == 1)
+
+		if (type == 1)// if left is pressed
 		{
 			character->setXdir(xdir);
 			if (character->getYdir()) character->setSprite(char_arr[0]->getSprite());
 			else character->setSprite(char_arr[2]->getSprite());
 			
 		}
-		else if (type == 2)
+		else if (type == 2)// if right is pressed
 		{
 			character->setXdir(xdir);
 			if (character->getYdir()) character->setSprite(char_arr[1]->getSprite());
 			else character->setSprite(char_arr[3]->getSprite());
 		}
-		else if (type == 3)
+		else if (type == 3)//if up is pressed
 		{
 			character->setYdir(ydir);
 			if (character->getXdir()) character->setSprite(char_arr[1]->getSprite());
 			else character->setSprite(char_arr[0]->getSprite());
 		}
-		else if (type == 4)
+		else if (type == 4)// if down is pressed
 		{
 			character->setYdir(ydir);
 			if (character->getXdir()) character->setSprite(char_arr[3]->getSprite());
@@ -241,7 +243,7 @@ int main()
 
 		// Wall Algorithm
 		for (int i = 0; i < stage->getWallCount(); i++) {
-			drawWall(character, stage->getXWallPos(i), stage->getYWallPos(i), stage->getWallWidth(i), stage->getWallHeight(i));
+			checkWall(character, stage->getXWallPos(i), stage->getYWallPos(i), stage->getWallWidth(i), stage->getWallHeight(i));
 		}
 
 		// Tile Algorithm
@@ -260,8 +262,10 @@ int main()
 		{
 			if (tile[count]->getType() == 2) speed = tile[count]->getChangeSpeed();
 			else speed = tile[count]->getChangeSpeed();
-			character->CharacterDamage(tile[count]);
+			int state=character->CharacterDamage(tile[count]);
 			changeOperation=graphics->moveCharacter(character, tile[count], check);
+			if ((tile[count]->getType() == 3 || tile[count]->getType() == 1) && state==1) printf("Health: %d\n", character->getHealth());
+
 		}
 		//For partial others except slow and spike
 		else if(check == 2)
@@ -277,11 +281,14 @@ int main()
 			graphics->moveCharacter(character);
 		}
 
+		// if player is in stairs
 		if (changeOperation == 1)
 		{
 			level++;
 			setUpStage(stage, graphics, character, tile, char_arr, level, tile[count]->getNewX(), tile[count]->getNewY());
 		}
+
+		//if the switch is step on and is not open change type and sprite of switch and stairs
 		else if (changeOperation == 2)
 		{
 			tile[stage->getTileCount() - 2]->setSprite(switch_pointer);
@@ -291,6 +298,8 @@ int main()
 			tile[stage->getTileCount() - 1]->setType(8);
 			graphics->changeTile(tile[stage->getTileCount() - 1]);
 		}
+
+		//if the switch is open but died change type and sprite of switch and stairs
 		else if (changeOperation == 3)
 		{
 			tile[count]->setSprite(switchon_pointer);
@@ -301,19 +310,13 @@ int main()
 			graphics->changeTile(tile[stage->getTileCount() - 1]);
 			graphics->displaySprite(character->getSprite(), character->getWidth(), character->getHeight(), character->getX(), character->getY());
 		}
+
+		//if the character reached the treasure chest
 		else if (changeOperation == 4)
 		{
 			mfb_close(window);
 			return 0;
 		}
 		
-		if (type != 0)
-		{
-			printf("%d,%d\n", character->getX(), character->getY());
-		}
-
-		
-		
-
 	}while (mfb_wait_sync(window));
 }
